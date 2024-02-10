@@ -1,0 +1,23 @@
+{
+  "name": "perfect-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "ava": "^6.1.1",
+    "esbuild": "^0.20.0",
+    "tsup": "^8.0.1",
+    "tsx": "^4.7.1"
+  },
+  "dependencies": {
+    "commander": "^12.0.0",
+    "prompts": "^2.4.2"
+  }
+}
