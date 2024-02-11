@@ -1,15 +1,16 @@
 {
   "name": "perfect-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsup ./src/index.ts"
+    "build": "tsup ./src/index.ts --dts --sourcemap"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/minimist": "^1.2.5",
     "@types/node": "^20.11.17",
     "@types/prompts": "^2.4.9",
     "ava": "^6.1.1",

@@ -15,7 +15,36 @@ interaction model:
 > Perfect CLI uses the same interface as [commander](https://www.npmjs.com/package/commander)
 
 ```ts
+import { perfectCli } from "perfect-cli"
 import { program } from "commander"
 
+program.name("my-progress")
 
+const packagesCmd = program
+  .command("packages")
+  .description("Functions for packages")
+
+packagesCmd
+  .command("list")
+  .description("List all packages")
+  .action(() => {})
+
+packagesCmd
+  .command("get")
+  .option("-n, --name <name>", "Package name")
+  .option("-i, --id <id>", "Package Id")
+  .option("--sha <sha>", "Package Commit SHA")
+  .description("Get a single package")
+  .action((args) => {
+    console.log("packages get invoked!", args)
+  })
+
+const usersCmd = program.command("users").description("Functions for users")
+
+usersCmd
+  .command("list")
+  .description("List all users")
+  .action(() => {})
+
+perfectCli(program, process.argv)
 ```
