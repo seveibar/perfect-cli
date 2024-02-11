@@ -8,8 +8,12 @@ export const figureOutCommandArgs = async (
   program: Command,
   commandPath: string[],
   options: Record<string, any>
-) => {
+): Promise<Record<string, any>> => {
   const command = getCommandFromPath(program, commandPath)
+
+  if (command.options.length === 0) {
+    return options
+  }
 
   console.log(
     `> ${[program.name(), ...commandPath]
