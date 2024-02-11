@@ -113,7 +113,7 @@ records:
   - delay: 100
     content: "\r\n"
   - delay: 131
-    content: "tsx ./scripts/readme-example.ts"
+    content: "my-cli"
   - delay: 1500
     content: "\r\n"
   - delay: 391
