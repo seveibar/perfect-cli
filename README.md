@@ -18,7 +18,7 @@ interaction model:
 import { perfectCli } from "perfect-cli"
 import { program } from "commander"
 
-program.name("my-progress")
+program.name("my-cli")
 
 const packagesCmd = program
   .command("packages")

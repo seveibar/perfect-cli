@@ -1,7 +1,7 @@
 import { perfectCli } from "../src/index"
 import { program } from "commander"
 
-program.name("perfect")
+program.name("my-cli")
 
 const packagesCmd = program
   .command("packages")
@@ -10,9 +10,7 @@ const packagesCmd = program
 packagesCmd
   .command("list")
   .description("List all packages")
-  .action((args) => {
-    console.log("packages list invoked!", args)
-  })
+  .action(() => {})
 
 packagesCmd
   .command("get")
@@ -24,21 +22,11 @@ packagesCmd
     console.log("packages get invoked!", args)
   })
 
-const users = program.command("users").description("Functions for users")
+const usersCmd = program.command("users").description("Functions for users")
 
-users
+usersCmd
   .command("list")
   .description("List all users")
-  .action((args) => {
-    console.log("users list invoked!", args)
-  })
+  .action(() => {})
 
-users
-  .command("get")
-  .option("-i, --id <id>", "User id")
-  .description("Get user by id")
-  .action((args) => {
-    console.log("users get invoked!", args)
-  })
-
-console.log(perfectCli(program, process.argv))
+perfectCli(program, process.argv)
