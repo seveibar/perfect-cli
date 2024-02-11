@@ -10,6 +10,8 @@ interaction model:
 - All commands and parameters can be configured and explored interactively
 - By default, running the command without args is always interactive
 
+![](./docs/demo.gif)
+
 ## Usage
 
 > Perfect CLI uses the same interface as [commander](https://www.npmjs.com/package/commander)

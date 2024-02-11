@@ -1,0 +1,168 @@
+# The configurations that used for the recording, feel free to edit them
+config:
+  # Specify a command to be executed
+  # like `/bin/bash -l`, `ls`, or any other commands
+  # the default is bash for Linux
+  # or powershell.exe for Windows
+  command: bash -l
+
+  # Specify the current working directory path
+  # the default is the current working directory path
+  # cwd: /perfect-cli
+
+  # Export additional ENV variables
+  env:
+    recording: true
+
+  # Explicitly set the number of columns
+  # or use `auto` to take the current
+  # number of columns of your shell
+  cols: 64
+
+  # Explicitly set the number of rows
+  # or use `auto` to take the current
+  # number of rows of your shell
+  rows: 16
+
+  # Amount of times to repeat GIF
+  # If value is -1, play once
+  # If value is 0, loop indefinitely
+  # If value is a positive number, loop n times
+  repeat: 0
+
+  # Quality
+  # 1 - 100
+  quality: 100
+
+  # Delay between frames in ms
+  # If the value is `auto` use the actual recording delays
+  frameDelay: auto
+
+  # Maximum delay between frames in ms
+  # Ignored if the `frameDelay` isn't set to `auto`
+  # Set to `auto` to prevent limiting the max idle time
+  maxIdleTime: 2000
+
+  # The surrounding frame box
+  # The `type` can be null, window, floating, or solid`
+  # To hide the title use the value null
+  # Don't forget to add a backgroundColor style with a null as type
+  frameBox:
+    type: floating
+    title: Terminalizer
+    style:
+      border: 0px black solid
+      # boxShadow: none
+      # margin: 0px
+
+  # Add a watermark image to the rendered gif
+  # You need to specify an absolute path for
+  # the image on your machine or a URL, and you can also
+  # add your own CSS styles
+  watermark:
+    imagePath: null
+    style:
+      position: absolute
+      right: 15px
+      bottom: 15px
+      width: 100px
+      opacity: 0.9
+
+  # Cursor style can be one of
+  # `block`, `underline`, or `bar`
+  cursorStyle: block
+
+  # Font family
+  # You can use any font that is installed on your machine
+  # in CSS-like syntax
+  fontFamily: "Monaco, Lucida Console, Ubuntu Mono, Monospace"
+
+  # The size of the font
+  fontSize: 12
+
+  # The height of lines
+  lineHeight: 1
+
+  # The spacing between letters
+  letterSpacing: 0
+
+  # Theme
+  theme:
+    background: "transparent"
+    foreground: "#afafaf"
+    cursor: "#c7c7c7"
+    black: "#232628"
+    red: "#fc4384"
+    green: "#b3e33b"
+    yellow: "#ffa727"
+    blue: "#75dff2"
+    magenta: "#ae89fe"
+    cyan: "#708387"
+    white: "#d5d5d0"
+    brightBlack: "#626566"
+    brightRed: "#ff7fac"
+    brightGreen: "#c8ed71"
+    brightYellow: "#ebdf86"
+    brightBlue: "#75dff2"
+    brightMagenta: "#ae89fe"
+    brightCyan: "#b1c6ca"
+    brightWhite: "#f9f9f4"
+
+# Records, feel free to edit them
+records:
+  - delay: 100
+    content: "\r\n"
+  - delay: 131
+    content: "tsx ./scripts/readme-example.ts"
+  - delay: 1500
+    content: "\r\n"
+  - delay: 391
+    content: "\e[?25l\e[2K\e[1G\e[36m?\e[39m \e[1mChoose command\e[22m \e[90m…\e[39m \r\n\e[90mno matches found\e[39m\e[2K\e[1A\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mChoose command\e[22m \e[90m›\e[39m \r\n\e[36m❯\e[39m   \e[36m\e[4mmy-cli packages\e[39m\e[24m\e[90m - Functions for packages\e[39m\r\n    my-cli users\e[90m - Functions for users\e[39m"
+  - delay: 1752
+    content: "\e[2K\e[1A\e[2K\e[1A\e[2K\e[G\e[2K\e[1G\e[32m✔\e[39m \e[1mChoose command\e[22m \e[90m›\e[39m my-cli packages\r\n\e[?25h\e[?25l\e[2K\e[1G\e[36m?\e[39m \e[1mChoose command\e[22m \e[90m…\e[39m \r\n\e[90mno matches found\e[39m\e[2K\e[1A\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mChoose command\e[22m \e[90m›\e[39m \r\n\e[36m❯\e[39m   \e[36m\e[4mmy-cli packages list\e[39m\e[24m\e[90m - List all packages\e[39m\r\n    my-cli packages get\e[90m - Get a single package\e[39m"
+  - delay: 1256
+    content: "\e[2K\e[1A\e[2K\e[1A\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mChoose command\e[22m \e[90m›\e[39m \r\n    my-cli packages list\e[90m - List all packages\e[39m\r\n\e[36m❯\e[39m   \e[36m\e[4mmy-cli packages get\e[39m\e[24m\e[90m - Get a single package\e[39m"
+  - delay: 454
+    content: "\e[2K\e[1A\e[2K\e[1A\e[2K\e[G\e[2K\e[1G\e[32m✔\e[39m \e[1mChoose command\e[22m \e[90m›\e[39m my-cli packages get\r\n\e[?25h> my-cli packages get \r\n\e[?25l\e[2K\e[1G\e[36m?\e[39m \e[1mChoose option to edit\e[22m \e[90m…\e[39m \r\n\e[90mno matches found\e[39m\e[2K\e[1A\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mChoose option to edit\e[22m \e[90m›\e[39m \r\n\e[36m❯\e[39m   \e[36m\e[4m[Done]\e[39m\e[24m\e[90m - Done editing options\e[39m\r\n    --name\e[90m - Package name\e[39m\r\n    --id\e[90m - Package Id\e[39m\r\n    --sha\e[90m - Package Commit SHA\e[39m"
+  - delay: 1023
+    content: "\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mChoose option to edit\e[22m \e[90m›\e[39m \r\n    [Done]\e[90m - Done editing options\e[39m\r\n\e[36m❯\e[39m   \e[36m\e[4m--name\e[39m\e[24m\e[90m - Package name\e[39m\r\n    --id\e[90m - Package Id\e[39m\r\n    --sha\e[90m - Package Commit SHA\e[39m"
+  - delay: 400
+    content: "\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G\e[2K\e[1G\e[32m✔\e[39m \e[1mChoose option to edit\e[22m \e[90m›\e[39m --name\r\n\e[?25h\e[2K\e[1G\e[36m?\e[39m \e[1mEnter new value for --name\e[22m \e[90m›\e[39m \e7\e8"
+  - delay: 2503
+    content: "\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mEnter new value for --name\e[22m \e[90m›\e[39m M\e7\e8"
+  - delay: 242
+    content: "\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mEnter new value for --name\e[22m \e[90m›\e[39m My\e7\e8"
+  - delay: 118
+    content: "\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mEnter new value for --name\e[22m \e[90m›\e[39m My \e7\e8"
+  - delay: 330
+    content: "\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mEnter new value for --name\e[22m \e[90m›\e[39m My P\e7\e8"
+  - delay: 147
+    content: "\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mEnter new value for --name\e[22m \e[90m›\e[39m My Pa\e7\e8"
+  - delay: 67
+    content: "\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mEnter new value for --name\e[22m \e[90m›\e[39m My Pac\e7\e8"
+  - delay: 76
+    content: "\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mEnter new value for --name\e[22m \e[90m›\e[39m My Pack\e7\e8"
+  - delay: 92
+    content: "\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mEnter new value for --name\e[22m \e[90m›\e[39m My Packa\e7\e8"
+  - delay: 133
+    content: "\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mEnter new value for --name\e[22m \e[90m›\e[39m My Packag\e7\e8"
+  - delay: 99
+    content: "\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mEnter new value for --name\e[22m \e[90m›\e[39m My Package\e7\e8"
+  - delay: 104
+    content: "\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mEnter new value for --name\e[22m \e[90m›\e[39m My Package \e7\e8"
+  - delay: 265
+    content: "\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mEnter new value for --name\e[22m \e[90m›\e[39m My Package N\e7\e8"
+  - delay: 104
+    content: "\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mEnter new value for --name\e[22m \e[90m›\e[39m My Package Na\e7\e8"
+  - delay: 118
+    content: "\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mEnter new value for --name\e[22m \e[90m›\e[39m My Package Nam\e7\e8"
+  - delay: 85
+    content: "\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mEnter new value for --name\e[22m \e[90m›\e[39m My Package Name\e7\e8"
+  - delay: 517
+    content: "\e[2K\e[G\e[2K\e[1G\e[32m✔\e[39m \e[1mEnter new value for --name\e[22m \e[90m…\e[39m My Package Name\e7\e8\r\n\e[?25h> my-cli packages get --name \"My Package Name\"\r\n\e[?25l\e[2K\e[1G\e[36m?\e[39m \e[1mChoose option to edit\e[22m \e[90m…\e[39m \r\n\e[90mno matches found\e[39m\e[2K\e[1A\e[2K\e[G\e[2K\e[1G\e[36m?\e[39m \e[1mChoose option to edit\e[22m \e[90m›\e[39m \r\n\e[36m❯\e[39m   \e[36m\e[4m[Done]\e[39m\e[24m\e[90m - Done editing options\e[39m\r\n    --name\e[90m - [My Package Name]\e[39m\r\n    --id\e[90m - Package Id\e[39m\r\n    --sha\e[90m - Package Commit SHA\e[39m"
+  - delay: 1002
+    content: "\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[1A\e[2K\e[G\e[2K\e[1G\e[32m✔\e[39m \e[1mChoose option to edit\e[22m \e[90m›\e[39m [Done]\r\n\e[?25h> my-cli packages get --name \"My Package Name\"\r\npackages get invoked! { name: \e[32m'My Package Name'\e[39m }\r\n"
+  - delay: 2000
+    content: "$ "
+  - delay: 100
+    content: "logout\r\n"
