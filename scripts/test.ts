@@ -15,7 +15,9 @@ packagesCmd
 packagesCmd
   .command("get")
   .option("-n, --name <name>", "Package name")
-  .description("List all packages")
+  .option("-i, --id <id>", "Package Id")
+  .option("--sha <sha>", "Package Commit SHA")
+  .description("Get a single package")
   .action(() => {})
 
 const users = program.command("users").description("Functions for users")
