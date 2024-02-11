@@ -25,8 +25,13 @@ export const perfectCli = async (program: Command, argv: string[]) => {
     passedArgs
   )
 
+  const argvWithoutPerfect = argv.filter(
+    (a) => !["--yes", "-y", "-i", "--interactive"].includes(a)
+  )
+
   if (isYesMode || (!isInteractiveMode && hasRequiredArgsToRun)) {
-    await program.parseAsync(argv)
+    await program.parseAsync(argvWithoutPerfect)
+    process.exit(0)
   }
 
   const commandPath = await figureOutCommandPath(program, _)
