@@ -1,4 +1,7 @@
+import { perfectCli } from "../src/index"
 import { program } from "commander"
+
+program.name("perfect")
 
 const packagesCmd = program
   .command("packages")
@@ -28,4 +31,4 @@ users
   .description("Get user by id")
   .action(() => {})
 
-console.log(program.commands[0].name())
+console.log(perfectCli(program, process.argv))
