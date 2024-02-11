@@ -13,20 +13,23 @@ export const figureOutCommandPath = async (
     return commandPath
   }
 
+  const normalizeText = (text: string) =>
+    text.replace(/[-_]/g, "_").toLowerCase()
+
   const { nextCommandName } = await prompts({
     type: "autocomplete",
     name: "nextCommandName",
     message: "Choose command",
-    suggest: async (input, choices) =>
-      choices.filter(
+    suggest: async (input, choices) => {
+      const normalizedInput = normalizeText(input)
+      return choices.filter(
         (c) =>
-          c?.title?.startsWith(input) ||
-          c?.title
-            ?.split(" ")
-            .pop()
-            ?.replace(/-_/g, "_")
-            ?.startsWith(input.replace(/-_/g, "_"))
-      ),
+          normalizeText(c?.title!).startsWith(normalizedInput) ||
+          normalizeText(c?.title?.split(" ").pop()!)?.startsWith(
+            normalizedInput
+          )
+      )
+    },
     choices: currentCommand.commands.map((c) => ({
       title: `${[program.name(), ...commandPath, c.name()]
         .filter(Boolean)

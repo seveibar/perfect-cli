@@ -29,4 +29,8 @@ usersCmd
   .description("List all users")
   .action(() => {})
 
+const longTestCommand = program
+  .command("long_test_command")
+  .description("Long test command")
+
 perfectCli(program, process.argv)
