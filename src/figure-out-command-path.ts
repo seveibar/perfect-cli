@@ -6,7 +6,7 @@ import { getCommandFromPath } from "./get-command-from-path"
 export const figureOutCommandPath = async (
   program: Command,
   commandPath: string[]
-) => {
+): Promise<string[]> => {
   const currentCommand = getCommandFromPath(program, commandPath)
 
   if (currentCommand.commands.length === 0) {
@@ -21,7 +21,11 @@ export const figureOutCommandPath = async (
       choices.filter(
         (c) =>
           c?.title?.startsWith(input) ||
-          c?.title?.split(" ").pop()?.startsWith(input)
+          c?.title
+            ?.split(" ")
+            .pop()
+            ?.replace(/-_/g, "_")
+            ?.startsWith(input.replace(/-_/g, "_"))
       ),
     choices: currentCommand.commands.map((c) => ({
       title: `${[program.name(), ...commandPath, c.name()]

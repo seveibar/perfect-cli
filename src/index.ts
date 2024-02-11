@@ -53,9 +53,9 @@ export const perfectCli = async (program: Command, argv: string[]) => {
   await program.parseAsync([
     ...process.argv.slice(0, 2),
     ...commandPath,
-    ...Object.entries(options).flatMap(([optKey, optVal]) => [
+    ...(Object.entries(options).flatMap(([optKey, optVal]) => [
       `--${optKey}`,
       optVal,
-    ]),
+    ]) as string[]),
   ])
 }
