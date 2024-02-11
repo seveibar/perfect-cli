@@ -10,7 +10,9 @@ const packagesCmd = program
 packagesCmd
   .command("list")
   .description("List all packages")
-  .action(() => {})
+  .action((args) => {
+    console.log("packages list invoked!", args)
+  })
 
 packagesCmd
   .command("get")
@@ -18,19 +20,25 @@ packagesCmd
   .option("-i, --id <id>", "Package Id")
   .option("--sha <sha>", "Package Commit SHA")
   .description("Get a single package")
-  .action(() => {})
+  .action((args) => {
+    console.log("packages get invoked!", args)
+  })
 
 const users = program.command("users").description("Functions for users")
 
 users
   .command("list")
   .description("List all users")
-  .action(() => {})
+  .action((args) => {
+    console.log("users list invoked!", args)
+  })
 
 users
   .command("get")
   .option("-i, --id <id>", "User id")
   .description("Get user by id")
-  .action(() => {})
+  .action((args) => {
+    console.log("users get invoked!", args)
+  })
 
 console.log(perfectCli(program, process.argv))

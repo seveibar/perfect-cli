@@ -2,11 +2,7 @@ import type { Command } from "commander"
 import prompts from "prompts"
 import minimist from "minimist"
 import { getCommandFromPath } from "./get-command-from-path"
-
-export const stringifyOptions = (options: Record<string, any>) =>
-  Object.entries(options)
-    .map(([key, value]) => `--${key} ${value}`)
-    .join(" ")
+import { stringifyOptions } from "./stringify-options"
 
 export const figureOutCommandArgs = async (
   program: Command,
@@ -49,5 +45,37 @@ export const figureOutCommandArgs = async (
     ],
   })
 
-  console.log({ optionToEdit })
+  if (optionToEdit === "done") {
+    return options
+  }
+
+  const option = command.options.find(
+    (o) => (o.long! ?? o.short!).replace(/^--/, "") === optionToEdit
+  )!
+
+  // TODO enable perfectCli user to pass in ways override edit options
+
+  if (option.isBoolean()) {
+    const { newValue } = await prompts({
+      type: "toggle",
+      name: "newValue",
+      message: `Toggle ${option.name()}`,
+      initial: options[optionToEdit],
+      active: "true",
+      inactive: "false",
+    })
+
+    options[optionToEdit] = newValue
+  } else {
+    const { newValue } = await prompts({
+      type: "text",
+      name: "newValue",
+      message: `Enter new value for ${option.long!}`,
+      initial: options[optionToEdit],
+    })
+
+    options[optionToEdit] = newValue
+  }
+
+  return figureOutCommandArgs(program, commandPath, options)
 }

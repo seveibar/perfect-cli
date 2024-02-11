@@ -4,6 +4,8 @@ import minimist from "minimist"
 import { figureOutCommandPath } from "./figure-out-command-path"
 import { getCommandFromPath } from "./get-command-from-path"
 import { figureOutCommandArgs } from "./figure-out-options"
+import { stringifyCommandWithOptions } from "./stringify-command-with-options"
+import { stringifyOptions } from "./stringify-options"
 
 export const perfectCli = async (program: Command, argv: string[]) => {
   // Trim the executable and program path
@@ -24,4 +26,13 @@ export const perfectCli = async (program: Command, argv: string[]) => {
     commandPath,
     unhandledPassedArgs
   )
+
+  const fullCommandString = stringifyCommandWithOptions(
+    program,
+    commandPath,
+    options
+  )
+  console.log(`> ${fullCommandString}`)
+
+  await program.parseAsync([process.argv[0], ...fullCommandString.split(" ")])
 }
