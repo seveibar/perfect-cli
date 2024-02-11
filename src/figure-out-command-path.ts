@@ -14,7 +14,7 @@ export const figureOutCommandPath = async (
   }
 
   const normalizeText = (text: string) =>
-    text.replace(/[-_]/g, "_").toLowerCase()
+    text.replace(/[-_ ]/g, "_").toLowerCase()
 
   const { nextCommandName } = await prompts({
     type: "autocomplete",
