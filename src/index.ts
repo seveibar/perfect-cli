@@ -6,6 +6,7 @@ import { getCommandFromPath } from "./get-command-from-path"
 import { figureOutCommandArgs } from "./figure-out-options"
 import { stringifyCommandWithOptions } from "./stringify-command-with-options"
 import { stringifyOptions } from "./stringify-options"
+import { doesProgramHaveAllRequiredArgs } from "./does-program-have-all-required-args"
 
 export const perfectCli = async (program: Command, argv: string[]) => {
   // Trim the executable and program path
@@ -17,6 +18,16 @@ export const perfectCli = async (program: Command, argv: string[]) => {
   const isYesMode = yes || y
   const isInteractiveMode = i || interactive
   const isHelpMode = help || h
+
+  const hasRequiredArgsToRun = doesProgramHaveAllRequiredArgs(
+    program,
+    _,
+    passedArgs
+  )
+
+  if (isYesMode || (!isInteractiveMode && hasRequiredArgsToRun)) {
+    await program.parseAsync(argv)
+  }
 
   const commandPath = await figureOutCommandPath(program, _)
   const command = getCommandFromPath(program, commandPath)
@@ -35,9 +46,9 @@ export const perfectCli = async (program: Command, argv: string[]) => {
   console.log(`> ${fullCommandString}`)
 
   await program.parseAsync([
-    process.argv[0],
+    ...process.argv.slice(0, 2),
     ...commandPath,
-    ...Object.entries(options).flatMap((optKey, optVal) => [
+    ...Object.entries(options).flatMap(([optKey, optVal]) => [
       `--${optKey}`,
       optVal,
     ]),
