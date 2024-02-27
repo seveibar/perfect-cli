@@ -32,6 +32,12 @@ packagesCmd
   .action(() => {})
 
 packagesCmd
+  .command("create")
+  .requiredOption("-n, --name <name>")
+  .option("-d, --description <description>")
+  .action(() => {})
+
+packagesCmd
   .command("get")
   .option("-n, --name <name>", "Package name")
   .option("-i, --id <id>", "Package Id")

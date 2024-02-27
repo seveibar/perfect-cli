@@ -4,6 +4,9 @@ import minimist from "minimist"
 import { getCommandFromPath } from "./get-command-from-path"
 import { stringifyOptions } from "./stringify-options"
 
+const getOptionKey = (o: { long?: string; short?: string }) =>
+  (o.long! ?? o.short!).replace(/^--/, "")
+
 export const figureOutCommandArgs = async (
   program: Command,
   commandPath: string[],
@@ -20,6 +23,11 @@ export const figureOutCommandArgs = async (
       .filter(Boolean)
       .join(" ")} ${stringifyOptions(options)}`
   )
+
+  const hasRequiredOptions = command.options
+    .filter((o) => o.mandatory)
+    .every((o) => options[getOptionKey(o)])
+
   const { optionToEdit } = await prompts({
     type: "autocomplete",
     name: "optionToEdit",
@@ -31,31 +39,31 @@ export const figureOutCommandArgs = async (
           c.title.replace(/^--/, "").startsWith(input)
       ),
     choices: [
-      {
-        title: "[Done]",
-        value: "done",
-        description: "Done editing options",
-      },
+      hasRequiredOptions
+        ? {
+            title: "[Done]",
+            value: "done",
+            description: "Done editing options",
+          }
+        : null,
       ...command.options.map((o) => {
-        const optionName = (o.long! ?? o.short!).replace(/^--/, "")
+        const optionName = getOptionKey(o)
         return {
-          title: o.long!,
+          title: `${o.long!}${o.mandatory ? "*" : ""}`,
           value: optionName,
           description: options[optionName]
             ? `[${options[optionName]}]`
             : o.description,
         }
       }),
-    ],
+    ].filter((elm): elm is Exclude<typeof elm, null> => Boolean(elm)),
   })
 
   if (optionToEdit === "done") {
     return options
   }
 
-  const option = command.options.find(
-    (o) => (o.long! ?? o.short!).replace(/^--/, "") === optionToEdit
-  )!
+  const option = command.options.find((o) => getOptionKey(o) === optionToEdit)!
 
   // TODO enable perfectCli user to pass in ways override edit options
 
