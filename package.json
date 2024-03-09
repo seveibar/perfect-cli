@@ -1,10 +1,11 @@
 {
   "name": "perfect-cli",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsup ./src/index.ts --dts --sourcemap"
+    "build": "tsup ./src/index.ts --dts --sourcemap",
+    "example": "tsx ./scripts/readme-example.ts"
   },
   "keywords": [],
   "author": "",

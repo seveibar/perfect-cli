@@ -3,12 +3,17 @@ import prompts from "prompts"
 import minimist from "minimist"
 import { figureOutCommandPath } from "./figure-out-command-path"
 import { getCommandFromPath } from "./get-command-from-path"
-import { figureOutCommandArgs } from "./figure-out-options"
+import { figureOutCommandArgs } from "./figure-out-command-args"
 import { stringifyCommandWithOptions } from "./stringify-command-with-options"
 import { stringifyOptions } from "./stringify-options"
 import { doesProgramHaveAllRequiredArgs } from "./does-program-have-all-required-args"
+import { PerfectCliOptions } from "./perfect-cli-options"
 
-export const perfectCli = async (program: Command, argv: string[]) => {
+export const perfectCli = async (
+  program: Command,
+  argv: string[],
+  perfectCliOptions?: PerfectCliOptions
+) => {
   // Trim the executable and program path
   const passedArgs = minimist(argv.slice(2))
 
@@ -40,7 +45,8 @@ export const perfectCli = async (program: Command, argv: string[]) => {
   const options = await figureOutCommandArgs(
     program,
     commandPath,
-    unhandledPassedArgs
+    unhandledPassedArgs,
+    perfectCliOptions
   )
 
   const fullCommandString = stringifyCommandWithOptions(
