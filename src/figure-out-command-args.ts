@@ -67,7 +67,7 @@ export const figureOutCommandArgs = async (
 
   const option = command.options.find((o) => getOptionKey(o) === optionToEdit)!
 
-  const customValue = await perfectCliOptions?.customParamHandlers?.(
+  const customValue = await perfectCliOptions?.customParamHandler?.(
     {
       commandPath,
       optionName: option.name(),

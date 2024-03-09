@@ -40,7 +40,7 @@ const longTestCommand = program
   .description("Long test command")
 
 perfectCli(program, process.argv, {
-  async customParamHandlers({ commandPath, optionName }, { prompts }) {
+  async customParamHandler({ commandPath, optionName }, { prompts }) {
     if (commandPath[0] === "packages" && optionName === "id") {
       return (
         await prompts({

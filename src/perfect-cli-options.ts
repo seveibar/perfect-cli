@@ -1,7 +1,7 @@
 import prompts from "prompts"
 
 export type PerfectCliOptions = {
-  customParamHandlers?: (
+  customParamHandler?: (
     option: {
       commandPath: string[]
       optionName: string

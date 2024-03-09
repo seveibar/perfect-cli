@@ -56,3 +56,36 @@ usersCmd
 
 perfectCli(program, process.argv)
 ```
+
+### Custom Prompts for Options
+
+You can create custom prompts for options, for example if you wanted to make
+a special autocomplete for an `--id` parameter by pinging a server for all
+the possible resources that can be selected. To do this, provide the
+`customParamHandler` to `perfectCli`, as shown below:
+
+```ts
+perfectCli(program, process.argv, {
+  async customParamHandler({ commandPath, optionName }, { prompts }) {
+    if (commandPath[0] === "packages" && optionName === "id") {
+      return (
+        await prompts({
+          type: "select",
+          name: "id",
+          choices: [
+            {
+              title: "Package 1",
+              value: "1",
+            },
+            {
+              title: "Package 2",
+              value: "2",
+            },
+          ],
+          message: "Select the package ID",
+        })
+      ).id
+    }
+  },
+})
+```
