@@ -100,5 +100,5 @@ export const figureOutCommandArgs = async (
     options[optionToEdit] = newValue
   }
 
-  return figureOutCommandArgs(program, commandPath, options)
+  return figureOutCommandArgs(program, commandPath, options, perfectCliOptions)
 }
