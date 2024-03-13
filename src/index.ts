@@ -42,6 +42,11 @@ export const perfectCli = async (
   const commandPath = await figureOutCommandPath(program, _)
   const command = getCommandFromPath(program, commandPath)
 
+  if (!command) {
+    console.log(`Command not found: "${commandPath.join(" ")}"`)
+    process.exit(1)
+  }
+
   const options = await figureOutCommandArgs(
     program,
     commandPath,
