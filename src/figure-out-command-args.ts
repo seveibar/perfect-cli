@@ -5,7 +5,7 @@ import { getCommandFromPath } from "./get-command-from-path"
 import { stringifyOptions } from "./stringify-options"
 import { PerfectCliOptions } from "./perfect-cli-options"
 
-const getOptionKey = (o: { long?: string; short?: string }) =>
+export const getOptionKey = (o: { long?: string; short?: string }) =>
   (o.long! ?? o.short!).replace(/^--/, "")
 
 export const figureOutCommandArgs = async (

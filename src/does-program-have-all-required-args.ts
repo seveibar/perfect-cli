@@ -1,4 +1,5 @@
 import { Command } from "commander"
+import { getOptionKey } from "./figure-out-command-args"
 import { getCommandFromPath } from "./get-command-from-path"
 
 /**
@@ -13,7 +14,17 @@ export const doesProgramHaveAllRequiredArgs = (
   _: string[],
   passedArgs: Record<string, string>
 ) => {
-  // Currently, commander doesn't have a good way to check if a command is
-  // exhaustive, because mutually exclusive options are specified as optional
-  return false
+  const command = getCommandFromPath(program, _)
+
+  const hasRequiredOptions = command.options
+    .filter((o) => o.mandatory)
+    .every((o) => passedArgs[getOptionKey(o)])
+
+  const hasRequiredPositionalArgs = command.registeredArguments
+    .filter((ra) => ra.required)
+    .every((ra) => passedArgs[ra.name()])
+
+  const hasSubcommands = command.commands.length > 0
+
+  return !hasSubcommands && hasRequiredOptions && hasRequiredPositionalArgs
 }
