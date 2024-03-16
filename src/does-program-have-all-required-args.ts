@@ -1,6 +1,9 @@
 import { Command } from "commander"
 import { getOptionKey } from "./figure-out-command-args"
-import { getCommandFromPath } from "./get-command-from-path"
+import {
+  getCommandFromPath,
+  getPositionalArgsOnly,
+} from "./get-command-from-path"
 
 /**
  * Check if Commander program has all required arguments and options to run
@@ -20,9 +23,10 @@ export const doesProgramHaveAllRequiredArgs = (
     .filter((o) => o.mandatory)
     .every((o) => passedArgs[getOptionKey(o)])
 
-  const hasRequiredPositionalArgs = command.registeredArguments
-    .filter((ra) => ra.required)
-    .every((ra) => passedArgs[ra.name()])
+  const positionalArgs = getPositionalArgsOnly(program, _)
+  const hasRequiredPositionalArgs = command.registeredArguments.every(
+    (ra, i) => !ra.required || positionalArgs[i]
+  )
 
   const hasSubcommands = command.commands.length > 0
 

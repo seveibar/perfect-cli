@@ -9,7 +9,7 @@ export const stringifyCommandWithOptions = (
 ) => {
   const command = getCommandFromPath(program, commandPath)
 
-  return `${[program.name(), ...commandPath]
-    .filter(Boolean)
-    .join(" ")} ${stringifyOptions(options)}`
+  return `${[program.name(), ...commandPath].filter(Boolean).join(" ")}${
+    options?._?.length > 0 ? ` ${options?._?.join(" ")}` : ""
+  } ${stringifyOptions(options)}`
 }

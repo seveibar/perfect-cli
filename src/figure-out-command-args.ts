@@ -1,9 +1,13 @@
 import type { Command } from "commander"
 import prompts from "prompts"
 import minimist from "minimist"
-import { getCommandFromPath } from "./get-command-from-path"
+import {
+  getCommandFromPath,
+  getPositionalArgsOnly,
+} from "./get-command-from-path"
 import { stringifyOptions } from "./stringify-options"
 import { PerfectCliOptions } from "./perfect-cli-options"
+import { get } from "http"
 
 export const getOptionKey = (o: { long?: string; short?: string }) =>
   (o.long! ?? o.short!).replace(/^--/, "")
@@ -15,6 +19,31 @@ export const figureOutCommandArgs = async (
   perfectCliOptions?: PerfectCliOptions
 ): Promise<Record<string, any>> => {
   const command = getCommandFromPath(program, commandPath)
+  const positionalArgs =
+    options._ ?? getPositionalArgsOnly(program, commandPath)
+
+  const hasAllPositionalArgs = command.registeredArguments.every(
+    (ra, i) => !ra.required || positionalArgs[i]
+  )
+  if (!hasAllPositionalArgs) {
+    const nextPositionalArg = command.registeredArguments.find(
+      (ra, i) => ra.required && !positionalArgs[i]
+    )
+
+    // TODO allow custom param handling
+    const { positionalArgInteractResult } = await prompts({
+      name: "positionalArgInteractResult",
+      type: "text",
+      message: `Enter ${nextPositionalArg?.name()}`,
+    })
+
+    return figureOutCommandArgs(
+      program,
+      commandPath,
+      { ...options, _: positionalArgs.concat([positionalArgInteractResult]) },
+      perfectCliOptions
+    )
+  }
 
   if (command.options.length === 0) {
     return options
