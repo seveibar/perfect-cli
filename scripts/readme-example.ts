@@ -39,6 +39,13 @@ const longTestCommand = program
   .command("long_test_command")
   .description("Long test command")
 
+const positionalCmd = program
+  .command("add")
+  .argument("<packages...", "Packages to add")
+  .action((args) => {
+    console.log("add invoked!", args)
+  })
+
 perfectCli(program, process.argv, {
   async customParamHandler({ commandPath, optionName }, { prompts }) {
     if (commandPath[0] === "packages" && optionName === "id") {
