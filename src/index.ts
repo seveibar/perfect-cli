@@ -14,8 +14,35 @@ export const perfectCli = async (
   argv: string[],
   perfectCliOptions?: PerfectCliOptions
 ) => {
+  // Get all boolean args
+  const booleanArgs: string[] = []
+  const aliases: Record<string, string[]> = {}
+
+  const subcommand = getCommandFromPath(program, argv.slice(2))
+
+  if (subcommand) {
+    for (const option of subcommand.options) {
+      if (option.long && option.short) {
+        aliases[option.long.replace(/^--/, "").replace(/^-/, "")] = [
+          option.short.replace(/^--/, "").replace(/^-/, ""),
+        ]
+      }
+      if (option.isBoolean()) {
+        booleanArgs.push(
+          ...[option.long!, option.short!]
+            .filter(Boolean)
+            .map((r) => r.replace(/^--/, "").replace(/^-/, ""))
+        )
+      }
+    }
+  }
+
   // Trim the executable and program path
-  const passedArgs = minimist(argv.slice(2))
+  const passedArgs = minimist(argv.slice(2), {
+    boolean: booleanArgs,
+    alias: aliases,
+    stopEarly: false,
+  })
 
   const { y, yes, i, interactive, h, help, _, ...unhandledPassedArgs } =
     passedArgs

@@ -37,6 +37,10 @@ export const figureOutCommandArgs = async (
       message: `Enter ${nextPositionalArg?.name()}`,
     })
 
+    if (positionalArgInteractResult === undefined) {
+      throw new Error(`${nextPositionalArg?.name()} is required`)
+    }
+
     return figureOutCommandArgs(
       program,
       commandPath,

@@ -25,6 +25,7 @@ export const getCommandPathOnly = (
   // Remove and positional args beyond the command path
   const commandPath = []
   for (const elm of commandPathAndPositionalArgs) {
+    if (elm.startsWith("-")) continue
     commandPath.push(elm)
     if (allLeafCommandPaths.includes(commandPath.join(" "))) {
       break
@@ -43,6 +44,7 @@ export const getPositionalArgsOnly = (
   const commandPath = []
   let positionalArgs: string[] = []
   for (const elm of commandPathAndPositionalArgs) {
+    if (elm.startsWith("-")) continue
     commandPath.push(elm)
     if (allLeafCommandPaths.includes(commandPath.join(" "))) {
       positionalArgs = commandPathAndPositionalArgs.slice(commandPath.length)

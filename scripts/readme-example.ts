@@ -42,6 +42,7 @@ const longTestCommand = program
 const positionalCmd = program
   .command("add")
   .argument("<packages...", "Packages to add")
+  .option("-D, --dev", "Add as dev dependency")
   .action((args) => {
     console.log("add invoked!", args)
   })
