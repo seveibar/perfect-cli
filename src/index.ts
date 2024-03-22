@@ -2,7 +2,11 @@ import type { Command } from "commander"
 import prompts from "prompts"
 import minimist from "minimist"
 import { figureOutCommandPath } from "./figure-out-command-path"
-import { getCommandFromPath, getCommandPathOnly } from "./get-command-from-path"
+import {
+  getCommandFromPath,
+  getCommandPathOnly,
+  getStrictCommandPath,
+} from "./get-command-from-path"
 import { figureOutCommandArgs } from "./figure-out-command-args"
 import { stringifyCommandWithOptions } from "./stringify-command-with-options"
 import { stringifyOptions } from "./stringify-options"
@@ -88,8 +92,11 @@ export const perfectCli = async (
   )
   console.log(`> ${fullCommandString}`)
 
+  const strictCommandPath = getStrictCommandPath(program, commandPath)
+
   await program.parseAsync([
     ...process.argv.slice(0, 2),
+    // ...strictCommandPath.concat(options._ ?? []),
     ...commandPath.concat(options._ ?? []),
     ...(Object.entries(options)
       .filter((opt) => opt[0] !== "_")

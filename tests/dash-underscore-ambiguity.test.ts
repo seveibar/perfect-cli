@@ -5,6 +5,7 @@ import {
   getAllLeafCommandPaths,
 } from "../src/get-all-command-paths"
 import { doesProgramHaveAllRequiredArgs } from "../src/does-program-have-all-required-args"
+import { getStrictCommandPath } from "../src/get-command-from-path"
 
 test("getAllCommandPaths and getAllLeafCommandPaths", async (t) => {
   const program = new Command()
@@ -25,4 +26,9 @@ test("getAllCommandPaths and getAllLeafCommandPaths", async (t) => {
   t.truthy(
     doesProgramHaveAllRequiredArgs(program, ["my_packages", "list_all"], {})
   )
+
+  t.deepEqual(getStrictCommandPath(program, ["my_packages", "LIST-ALL"]), [
+    "my-packages",
+    "list-all",
+  ])
 })

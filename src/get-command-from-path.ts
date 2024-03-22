@@ -58,3 +58,22 @@ export const getPositionalArgsOnly = (
   }
   return positionalArgs
 }
+
+/**
+ * A strict command path uses the exact casing/symbols of the command names (it
+ * isn't normalized)
+ *
+ * e.g. "my_packages LIST-ALL" may become "my-packages list-all"
+ */
+export const getStrictCommandPath = (
+  program: Command,
+  commandPath: string[]
+): string[] => {
+  const strictCommandPath: string[] = []
+  for (let i = 0; i < commandPath.length; i++) {
+    strictCommandPath.push(
+      getCommandFromPath(program, commandPath.slice(0, i + 1)).name()
+    )
+  }
+  return strictCommandPath
+}
