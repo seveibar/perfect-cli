@@ -19,6 +19,14 @@ export const doesProgramHaveAllRequiredArgs = (
 ) => {
   const command = getCommandFromPath(program, _)
 
+  if (!command) {
+    throw new Error(
+      `Could not determine command from given positional args: ${JSON.stringify(
+        _
+      )}`
+    )
+  }
+
   const hasRequiredOptions = command.options
     .filter((o) => o.mandatory)
     .every((o) => passedArgs[getOptionKey(o)])

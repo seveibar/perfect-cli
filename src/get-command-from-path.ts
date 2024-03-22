@@ -1,5 +1,6 @@
 import type { Command } from "commander"
 import { getAllLeafCommandPaths } from "./get-all-command-paths"
+import { normalizeCommandName } from "./normalize-command-name"
 
 export const getCommandFromPath = (
   program: Command,
@@ -11,7 +12,11 @@ export const getCommandFromPath = (
     (curr: Command, nextCommandName) =>
       !curr
         ? (null as any)
-        : curr.commands.find((c) => c.name() === nextCommandName)!,
+        : curr.commands.find(
+            (c) =>
+              normalizeCommandName(c.name()) ===
+              normalizeCommandName(nextCommandName)
+          )!,
     program
   )
 }

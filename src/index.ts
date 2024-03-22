@@ -2,7 +2,7 @@ import type { Command } from "commander"
 import prompts from "prompts"
 import minimist from "minimist"
 import { figureOutCommandPath } from "./figure-out-command-path"
-import { getCommandFromPath } from "./get-command-from-path"
+import { getCommandFromPath, getCommandPathOnly } from "./get-command-from-path"
 import { figureOutCommandArgs } from "./figure-out-command-args"
 import { stringifyCommandWithOptions } from "./stringify-command-with-options"
 import { stringifyOptions } from "./stringify-options"
@@ -96,3 +96,5 @@ export const perfectCli = async (
       .flatMap(([optKey, optVal]) => [`--${optKey}`, optVal]) as string[]),
   ])
 }
+
+export { getCommandFromPath, getCommandPathOnly }
