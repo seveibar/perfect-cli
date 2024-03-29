@@ -25,14 +25,18 @@ export const getCommandPathOnly = (
   program: Command,
   commandPathAndPositionalArgs: string[]
 ) => {
-  const allLeafCommandPaths = getAllLeafCommandPaths(program)
+  const allLeafCommandPaths = getAllLeafCommandPaths(program).map((path) =>
+    normalizeCommandName(path)
+  )
 
   // Remove and positional args beyond the command path
   const commandPath = []
   for (const elm of commandPathAndPositionalArgs) {
     if (elm.startsWith("-")) continue
     commandPath.push(elm)
-    if (allLeafCommandPaths.includes(commandPath.join(" "))) {
+    if (
+      allLeafCommandPaths.includes(normalizeCommandName(commandPath.join(" ")))
+    ) {
       break
     }
   }

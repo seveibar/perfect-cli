@@ -38,6 +38,9 @@ usersCmd
 const longTestCommand = program
   .command("long_test_command")
   .description("Long test command")
+  .action((args) => {
+    console.log("long_test_command invoked!", args)
+  })
 
 const positionalCmd = program
   .command("add")

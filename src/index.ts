@@ -66,7 +66,16 @@ export const perfectCli = async (
   )
 
   if (isYesMode || (!isInteractiveMode && hasRequiredArgsToRun)) {
-    await program.parseAsync(argvWithoutPerfect)
+    const commandPath = getStrictCommandPath(
+      program,
+      getCommandPathOnly(program, argvWithoutPerfect.slice(2))
+    )
+    const fixedArgv = [
+      ...argvWithoutPerfect.slice(0, 2),
+      ...commandPath,
+      ...argvWithoutPerfect.slice(2 + commandPath.length),
+    ]
+    await program.parseAsync(fixedArgv)
     process.exit(0)
   }
 
@@ -96,8 +105,7 @@ export const perfectCli = async (
 
   await program.parseAsync([
     ...process.argv.slice(0, 2),
-    // ...strictCommandPath.concat(options._ ?? []),
-    ...commandPath.concat(options._ ?? []),
+    ...strictCommandPath.concat(options._ ?? []),
     ...(Object.entries(options)
       .filter((opt) => opt[0] !== "_")
       .flatMap(([optKey, optVal]) => [`--${optKey}`, optVal]) as string[]),
