@@ -55,6 +55,11 @@ export const perfectCli = async (
   const isInteractiveMode = i || interactive
   const isHelpMode = help || h
 
+  if (isHelpMode) {
+    ;(subcommand ?? program).help()
+    return
+  }
+
   const hasRequiredArgsToRun = doesProgramHaveAllRequiredArgs(
     program,
     _,
