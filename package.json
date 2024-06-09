@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsup ./src/index.ts --dts --sourcemap",
-    "example": "tsx ./scripts/readme-example.ts"
+    "example": "tsx ./scripts/readme-example.ts",
+    "test": "ava"
   },
   "keywords": [],
   "author": "",

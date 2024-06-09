@@ -22,7 +22,7 @@ packagesCmd
   .command("get")
   .option("-n, --name <name>", "Package name")
   .option("-i, --id <id>", "Package Id")
-  .option("--sha <sha>", "Package Commit SHA")
+  .option("--commit-sha <sha>", "Package Commit SHA")
   .description("Get a single package")
   .action((args) => {
     console.log("packages get invoked!", args)
