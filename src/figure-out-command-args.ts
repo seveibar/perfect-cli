@@ -61,7 +61,7 @@ export const figureOutCommandArgs = async (
 
   const hasRequiredOptions = command.options
     .filter((o) => o.mandatory)
-    .every((o) => options[getOptionKey(o)])
+    .every((o) => getOptionKey(o) in options)
 
   const { optionToEdit } = await prompts({
     type: "autocomplete",
@@ -86,9 +86,8 @@ export const figureOutCommandArgs = async (
         return {
           title: `${o.long!}${o.mandatory ? "*" : ""}`,
           value: optionName,
-          description: options[optionName]
-            ? `[${options[optionName]}]`
-            : o.description,
+          description:
+            optionName in options ? `[${options[optionName]}]` : o.description,
         }
       }),
     ].filter((elm): elm is Exclude<typeof elm, null> => Boolean(elm)),
