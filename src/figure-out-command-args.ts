@@ -56,7 +56,7 @@ export const figureOutCommandArgs = async (
   console.log(
     `> ${[program.name(), ...commandPath]
       .filter(Boolean)
-      .join(" ")} ${stringifyOptions(options)}`
+      .join(" ")} ${stringifyOptions(options, options._)}`
   )
 
   const hasRequiredOptions = command.options
@@ -110,16 +110,7 @@ export const figureOutCommandArgs = async (
   if (customValue) {
     options[optionToEdit] = customValue
   } else if (option.isBoolean()) {
-    const { newValue } = await prompts({
-      type: "toggle",
-      name: "newValue",
-      message: `Toggle ${option.name()}`,
-      initial: options[optionToEdit],
-      active: "true",
-      inactive: "false",
-    })
-
-    options[optionToEdit] = newValue
+    // options[optionToEdit] = options[optionToEdit] !== undefined ? options[optionToEdit] :"";
   } else {
     // option.defaultValueDescription
     const { newValue } = await prompts({
