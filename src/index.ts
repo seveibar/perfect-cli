@@ -13,6 +13,15 @@ import { doesProgramHaveAllRequiredArgs } from "./does-program-have-all-required
 import { PerfectCliOptions } from "./perfect-cli-options"
 import { findOptionByKey, getOptionFlagName } from "./utils"
 
+const TRUTHY_ENV_VALUES = new Set(["1", "true", "yes", "on"])
+
+export const isNonInteractiveEnvEnabled = (
+  env: NodeJS.ProcessEnv = process.env
+) =>
+  TRUTHY_ENV_VALUES.has(
+    (env.PERFECT_CLI_NON_INTERACTIVE ?? "").toLowerCase()
+  )
+
 export const perfectCli = async (
   program: Command,
   argv: string[],
@@ -51,8 +60,9 @@ export const perfectCli = async (
   const { y, yes, i, interactive, h, help, _, ...unhandledPassedArgs } =
     passedArgs
 
-  const isYesMode = yes || y
   const isInteractiveMode = i || interactive
+  const isYesMode =
+    yes || y || (isNonInteractiveEnvEnabled() && !isInteractiveMode)
   const isHelpMode = help || h
 
   if (isHelpMode) {
