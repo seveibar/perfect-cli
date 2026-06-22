@@ -12,6 +12,9 @@ import { get } from "http"
 export const getOptionKey = (o: { long?: string; short?: string }) =>
   (o.long! ?? o.short!).replace(/^--/, "")
 
+export const getOptionDisplayName = (o: { long?: string; short?: string }) =>
+  [o.short, o.long].filter(Boolean).join(", ") || getOptionKey(o)
+
 export const figureOutCommandArgs = async (
   program: Command,
   commandPath: string[],
@@ -67,12 +70,12 @@ export const figureOutCommandArgs = async (
     type: "autocomplete",
     name: "optionToEdit",
     message: "Choose option to edit",
-    suggest: async (input, choices) =>
-      choices.filter(
-        (c) =>
-          c.title.startsWith(input) ||
-          c.title.replace(/^--/, "").startsWith(input)
-      ),
+    suggest: async (input, choices) => {
+      const normalizedInput = input.toLowerCase()
+      return choices.filter((c) =>
+        `${c.title} ${c.value}`.toLowerCase().includes(normalizedInput)
+      )
+    },
     choices: [
       hasRequiredOptions
         ? {
@@ -84,7 +87,7 @@ export const figureOutCommandArgs = async (
       ...command.options.map((o) => {
         const optionName = getOptionKey(o)
         return {
-          title: `${o.long!}${o.mandatory ? "*" : ""}`,
+          title: `${getOptionDisplayName(o)}${o.mandatory ? "*" : ""}`,
           value: optionName,
           description:
             optionName in options ? `[${options[optionName]}]` : o.description,
@@ -113,7 +116,7 @@ export const figureOutCommandArgs = async (
     const { newValue } = await prompts({
       type: "toggle",
       name: "newValue",
-      message: `Toggle ${option.name()}`,
+      message: `Toggle ${getOptionDisplayName(option)}`,
       initial: options[optionToEdit],
       active: "true",
       inactive: "false",
@@ -125,7 +128,7 @@ export const figureOutCommandArgs = async (
     const { newValue } = await prompts({
       type: "text",
       name: "newValue",
-      message: `Enter new value for ${option.long!}`,
+      message: `Enter new value for ${getOptionDisplayName(option)}`,
       initial: options[optionToEdit],
     })
 
