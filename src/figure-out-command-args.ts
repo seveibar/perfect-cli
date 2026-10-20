@@ -19,6 +19,18 @@ export const figureOutCommandArgs = async (
   perfectCliOptions?: PerfectCliOptions
 ): Promise<Record<string, any>> => {
   const command = getCommandFromPath(program, commandPath)
+  if (command?.options) {
+    for (const opt of command.options) {
+      const shortKey = opt.short?.replace(/^-+/, "")
+      const longKey = getOptionKey(opt)
+      if (shortKey && shortKey in options && !(longKey in options)) {
+        options[longKey] = options[shortKey]
+        delete options[shortKey]
+      } else if (shortKey && shortKey in options && longKey in options && shortKey !== longKey) {
+        delete options[shortKey]
+      }
+    }
+  }
   const positionalArgs =
     options._ ?? getPositionalArgsOnly(program, commandPath)
 
