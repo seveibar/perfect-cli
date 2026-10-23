@@ -13,6 +13,25 @@ import { doesProgramHaveAllRequiredArgs } from "./does-program-have-all-required
 import { PerfectCliOptions } from "./perfect-cli-options"
 import { findOptionByKey, getOptionFlagName } from "./utils"
 
+export const isInteractiveModeDisabled = (): boolean => {
+  if (
+    (process.env.PERFECT_CLI_DISABLE_INTERACTIVE &&
+      process.env.PERFECT_CLI_DISABLE_INTERACTIVE !== "0" &&
+      process.env.PERFECT_CLI_DISABLE_INTERACTIVE !== "false") ||
+    (process.env.PERFECT_CLI_NO_INTERACTIVE &&
+      process.env.PERFECT_CLI_NO_INTERACTIVE !== "0" &&
+      process.env.PERFECT_CLI_NO_INTERACTIVE !== "false") ||
+    process.env.PERFECT_CLI_INTERACTIVE === "0" ||
+    process.env.PERFECT_CLI_INTERACTIVE === "false" ||
+    (process.env.CI &&
+      process.env.CI !== "0" &&
+      process.env.CI !== "false")
+  ) {
+    return true
+  }
+  return false
+}
+
 export const perfectCli = async (
   program: Command,
   argv: string[],
@@ -51,12 +70,18 @@ export const perfectCli = async (
   const { y, yes, i, interactive, h, help, _, ...unhandledPassedArgs } =
     passedArgs
 
+  const envDisabled =
+    isInteractiveModeDisabled() ||
+    perfectCliOptions?.interactive === false ||
+    perfectCliOptions?.disableInteractive === true
+
   const isYesMode = yes || y
-  const isInteractiveMode = i || interactive
+  const isInteractiveFlag = interactive || i
+  const isInteractiveMode = isInteractiveFlag && !envDisabled
   const isHelpMode = help || h
 
   if (isHelpMode) {
-    ; (subcommand ?? program).help()
+    ;(subcommand ?? program).help()
     return
   }
 
@@ -70,7 +95,7 @@ export const perfectCli = async (
     (a) => !["--yes", "-y", "-i", "--interactive"].includes(a)
   )
 
-  if (isYesMode || (!isInteractiveMode && hasRequiredArgsToRun)) {
+  if (isYesMode || envDisabled || (!isInteractiveMode && hasRequiredArgsToRun)) {
     const commandPath = getStrictCommandPath(
       program,
       getCommandPathOnly(program, argvWithoutPerfect.slice(2))
@@ -81,7 +106,10 @@ export const perfectCli = async (
       ...argvWithoutPerfect.slice(2 + commandPath.length),
     ]
     await program.parseAsync(fixedArgv)
-    process.exit(0)
+    if (process.env.NODE_ENV !== "test") {
+      process.exit(0)
+    }
+    return
   }
 
   const commandPath = await figureOutCommandPath(program, _)
@@ -89,7 +117,10 @@ export const perfectCli = async (
 
   if (!command) {
     console.log(`Command not found: "${commandPath.join(" ")}"`)
-    process.exit(1)
+    if (process.env.NODE_ENV !== "test") {
+      process.exit(1)
+    }
+    return
   }
 
   const options = await figureOutCommandArgs(

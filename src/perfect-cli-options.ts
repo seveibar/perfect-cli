@@ -1,6 +1,8 @@
 import prompts from "prompts"
 
 export type PerfectCliOptions = {
+  interactive?: boolean
+  disableInteractive?: boolean
   customParamHandler?: (
     option: {
       commandPath: string[]
